@@ -58,7 +58,7 @@ def user_login(body: LoginModel):
 
 @login_router.get('/info')
 def user_info(token: str = Query(...)):
-    return {'admin-token': {
+    return {'code':20000,'data': {
         'roles': ['admin'],
         'introduction': 'I am a super administrator',
         'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
