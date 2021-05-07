@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 # @Author  : httpcn
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from pydantic import BaseModel, Field
 from utils.db_redis import RedisDB
 from utils.encrypt import encry
@@ -55,3 +55,12 @@ def user_login(body: LoginModel):
         print(user_info)
 
     return {'code': 20000, 'data': {'token': create_token(data=body.dict())}}
+
+@login_router.get('/info')
+def user_info(token: str = Query(...)):
+    return {'admin-token': {
+        'roles': ['admin'],
+        'introduction': 'I am a super administrator',
+        'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+        'name': 'Super Admin'
+    }}
