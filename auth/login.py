@@ -64,3 +64,8 @@ def user_info(token: str = Query(...)):
         'avatar': 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         'name': 'Super Admin'
     }}
+
+
+@login_router.post('/logout')
+def user_logout():
+    return {'code':20000, 'data': 'success'}
