@@ -5,7 +5,7 @@ from auth import login_router
 
 app = FastAPI()
 
-app.include_router(router=login_router, prefix='/login', tags=['login'])
+app.include_router(router=login_router, prefix='/user', tags=['login'])
 
 if __name__ == '__main__':
     uvicorn.run(
