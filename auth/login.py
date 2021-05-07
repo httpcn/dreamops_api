@@ -36,7 +36,7 @@ class RegModel(LoginModel):
     pass
 
 
-@login_router.post('/user_reg')
+@login_router.post('/reg')
 def user_reg(body: RegModel):
     res = id_generator()
     data = {
@@ -47,7 +47,7 @@ def user_reg(body: RegModel):
     return {'reg_info': data}
 
 
-@login_router.post('/user_login')
+@login_router.post('/login')
 def user_login(body: LoginModel):
     with RedisDB() as rdb:
         _k = "::".join([S.key_prefix, 'user'])
