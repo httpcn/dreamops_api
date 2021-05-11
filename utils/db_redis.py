@@ -4,7 +4,7 @@
 
 from redis import ConnectionPool, StrictRedis, ConnectionError
 
-from config import Config as C
+from config import Settings as S
 
 
 class RedisDB:
@@ -14,11 +14,11 @@ class RedisDB:
 
     def __enter__(self):
         pool = ConnectionPool(
-            host=C.REDIS_HOST,
-            port=C.REDIS_PORT,
+            host=S.REDIS_HOST,
+            port=S.REDIS_PORT,
             decode_responses=True
         )
-        self.db = StrictRedis(connection_pool=pool, max_connections=C.REDIS_MAXCONN)
+        self.db = StrictRedis(connection_pool=pool, max_connections=S.REDIS_MAXCONN)
 
         if self.pipeline:
             return self.db.pipeline()
@@ -26,15 +26,20 @@ class RedisDB:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         if exc_type == ConnectionError or exc_type is not None:
-            print('Redis Error:', exc_val)
+            print('Error:', exc_val)
             self.db.close()
             return True
 
 
+def rdb(pipeline=False):
+    with RedisDB(pipeline) as _rdb:
+        pass
+
+
 if __name__ == '__main__':
     with RedisDB() as rdb:
-        rdb.setnx(name='dreamops_ver', value='0.0.1')
-        print(rdb.get(name='dreamops_ver'))
+        rdb.setnx(name=S.ver, value='0.0.1')
+        print(rdb.get(name=S.ver))
 
     # with RedisDB(pipeline=True) as rdb_pipe:
     #     for i in range(10):
